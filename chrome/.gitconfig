@@ -1,0 +1,21 @@
+[user]
+	name = Aleks Totic
+	email = atotic@chromium.org
+[core]
+	autocrlf = false
+	filemode = false
+	editor = nano
+	excludesfile = /usr/local/google/home/atotic/.gitconfig_ignore
+	precomposeunicode = true
+[advice]
+	detachedHead = false
+[color]
+	ui = true
+[push]
+	default = simple
+[diff]
+	algorithm = patience
+[alias]
+	squash = "!f(){ git reset --soft HEAD~${1} && git commit --edit -m\"$(git log --format=%B --reverse HEAD..HEAD@{1})\"; };f"
+[http]
+	cookiefile = /usr/local/google/home/atotic/.gitcookies
