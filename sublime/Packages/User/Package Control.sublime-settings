@@ -1,0 +1,17 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"Color Highlighter",
+		"HTML-CSS-JS Prettify",
+		"IDL-Syntax",
+		"Package Control",
+		"PackageResourceViewer",
+		"Pretty JSON",
+		"Theme - amCoder",
+		"Theme - Soda"
+	],
+}

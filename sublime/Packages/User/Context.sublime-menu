@@ -1,0 +1,12 @@
+[
+{
+    "id" : "chromiumSearch",
+    "caption" : "Chromium search",
+    "command" : "chromium_search"
+},
+{
+    "id" : "gdbBreakpoint",
+    "caption" : "GDB br",
+    "command" : "gdb_breakpoint"
+}
+]
