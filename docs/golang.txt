@@ -1,0 +1,104 @@
+### instalation 
+https://go.dev/doc/install
+sudo rm ~/go /usr/local/go
+wget -o latest_go.tar.gz url
+gunzip latest_go.tar.gz
+sudo tar xf latest_go.tar --directory /usr/local
+go install github.com/go-delve/delve/cmd/dlv@latest
+
+# another way to install golang?
+sudo apt-get purge golang*
+sudo apt-get install golang-1.18
+
+vscode tasks https://github.com/golang/vscode-go/blob/master/docs/tasks.md
+
+# BETTER GOLANG instruction
+https://golangbyexample.com/golang-comprehensive-tutorial/#OOPS_in_Golang
+https://godocs.io/
+
+go playground:
+https://go.dev/play/p/1ggqB1f2Y6C
+
+### go modules: go.mod https://go.dev/blog/using-go-modules
+
+go.mod lists all the explicit modules our package depends on.
+
+when go build encounters a new module, it adds it to the go.mod file
+go.sum contains hashes of module versions
+
+semantic import versioning: module paths must end with major version
+rsc.io/quote/v3
+
+https://golang.cafe/blog/how-to-upgrade-golang-dependencies.html
+# commands
+
+go list -m all # list current module and all dependencies
+go get module-path # upgrades to latest version
+go mod tidy # cleans up unusued dependencies
+# when running go mod tidy, ginkgo dependencies do not work, must do this
+go get github.com/onsi/ginkgo/ginkgo@v1.16.4
+go get github.com/onsi/ginkgo/ginkgo/outline@v1.16.4
+
+go list -m -versions rsc.io/sampler # lists all versions of a module
+
+go install package-name # installs a binary, without affecting go.mod
+
+go clean -r # cleans all dependencies
+
+# upgrading dependencies
+https://github.com/golang/go/wiki/Modules#how-to-upgrade-and-downgrade-dependencies
+
+###### DATABASE
+// plain sql rows access.
+rows, err := db.Query("select id, name from users where id = ?", 1)
+for rows.Next() {
+	err := rows.Scan(&id, &name) // https://pkg.go.dev/database/sql#Rows.Scan
+}
+// dbscan scans database rows into Go structs
+Maps 
+
+// pgxscan is only used for pgxscan.ScanAll
+// pgxscan is a wrapper for dbscan
+
+
+###### ERROR HANDLING
+Go error handling starts off simple, but goes crazy fast.
+Initially, all Go errors were just strings.
+https://go.dev/blog/error-handling-and-go
+
+type error interface {
+    Error() string
+}
+
+You could implement a custom error by implementing this interface,
+but there was no stack trace. 
+Errors were wrapped with string concatenation.
+
+A new package was released that added stack traces, and error wrapping.
+github.com/pkg/errors
+
+The new package did not expose any public interfaces to
+get the stack, but did provide hidden API you could implement.
+
+type StackTraceAPI StackTrace() errors.StackTrace {
+	StackTrace() errors.StackTrace
+}
+
+Sentry events have 3 fields:
+Type -- error class name, or error message
+Value -- error message
+Stacktrace -- comes from StackTrace API.
+
+What we want for MissingKeyError is:
+Type: storage.RedisMissingKeyError
+Value: Missing id o::55::mc::?824648865560?
+Stack trace -- trace of error call
+
+To get the stack trace in your custom exception, you have to:
+- create a dummy error
+- use reflection to call a method on dummy error to get the stack.
+
+Exception implemented like this will still not be a stack-trace
+capable exception in fmt.Print("%v+", err) because the way 
+go implmenets stack trace printing is by implmenting "Formatter"
+api in the exception. God damn it!

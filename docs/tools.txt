@@ -1,0 +1,137 @@
+### USERNAME/PW
+https://sites.google.com/jetinsight.com/intranet/working-together/product-environments?authuser=2
+
+http://portal.jettest.com:3000/   operator@jetinsight.com/password
+http://market.jettest.com:3001/   may26@totic.org/password
+
+Logging into market.market-demo.jetinsight.com
+Basic auth: jetinsight/whiterabbit
+User: thexx@gmail.com/password
+
+### MAINTENANCE
+bundle install
+rake environment:update_local
+rails db:migrate
+rake db:migrate:primary
+rake generate:market_data:broker_customer_for_all_operators
+rake import:aircraft_hierarchy[true]
+
+hostname -I # shows all ip addresses
+
+sudo apt update; apt list --upgradable
+sudo apt upgrade
+
+du -sh --apparent-size <directory>: displays di
+
+### SERVERS
+olympus-http
+To debug Olympus locally
+/home/atotic/jetinsight-server/.env   OLYMPUS_API_HOST=http://172.17.0.1:3030
+hermes-cache
+
+hermes-queue
+ji-portal
+ji-workers
+ji-mailcatcher
+ji-database
+ji-tfssp-db
+ji-redis
+
+Papertrail -- logging solution
+
+
+### HEROKU 
+# build and push local branch to market-demo
+cd ~/go-insigdht
+git checkout hotfix/202203/22nd_SERVER-11857_cache_referesh_fail
+heroku container:login
+
+
+### SENTRY
+https://sentry.io/organizations/jetslash/issues/?page=3&project=5934090&query=is%3Aunresolved&statsPeriod=30d
+- separate logging systemm, that's where Dave gets his bugs.
+
+### DATABASE
+heroku pg:psql DATABASE_READ_REPLICA -a jetinsight-server-prod
+heroku pg:psql postgres://uaua3gav3usq8g:p600cbc1435b78236a7b2ce335daa13d100a87e4c6790c995131fa6b84ae85ef3@ec2-34-234-128-222.compute-1.amazonaws.com:5432/db4d2ibrsuq19s -a jetinsight-server-prod
+# sql cache
+heroku redis:cli  redis-symmetrical-91614 -a jetslash-hermes-market-demo
+# asynq + queue
+heroku redis:cli  redis-aerodynamic-83990 -a jetslash-hermes-market-demo
+
+heroku redis:cli  redis-graceful-59807 -a jetslash-hermes-prod
+
+FLUSHALL
+heroku ps:restart -a jetslash-hermes-market-demo
+
+Generating go seed fixtures:
+jetinisght-server/spec/seed-fixtures contains rails seeds.
+
+Marketplace
+- all html is done in React. React is served by next.js for server-side rendering
+- non-html apis are still served by portal
+
+Git
+git push origin --delete feature/atotic/SERVER-11737 # deletes remote branch
+git checkout --track develop -b feature/atotic/SERVER-11817 # 
+git push -u origin feature/atotic/SERVER-11817
+-- if you want the remote branch to have a different name:
+git push -u origin atotic/cleanup/SERVER-11963_ExpectedShards:atotic/cleanup/SERVER-11963_ExpectedShards2
+
+# NVM
+nvm use 16.14.0
+nvm alias default 16.14.0
+
+# RELEASE
+https://www.epochconverter.com/weeknumbers
+git checkout -b release/market22_w25
+git push -u origin release/market22_w25
+
+Release notes:
+This release has cumulative changes since Jun 9th, 2022
+
+- git diff master
+- List all major changes
+- Each issue should be marked with Status:QA-Marketplace, Fix version:Market / TBD (Next hermes)
+- git push --set-upstream origin release/10_05_2022
+- request review from justin/connor
+push to demo
+- make herokuDeployDemo
+- announce push on eng-announce
+
+
+RELEASE NOTES
+
+This release has cumulative changes since Jun 9th, 2022
+
+SERVER-12314:  
+Aircrafts that could not be hydrated because traversal
+of genus hierarchy failed ended up without AircraftLineItems.
+nil AircraftLineItems caused a crash in flight time calculator.
+Fix: do not store the aircraft with bad hierarchy, print this
+into logs.
+
+SERVER-12150: ?afbo?
+Additional logging statements to help with investigation.
+Susupected db inconsistency, this release will pinpoint the
+aircraft.
+
+SERVER-12361: task already exists
+Additional logging statements
+
+Unified reporting of panics. The message is: Panic in $location
+
+WSL/Linux
+apt list --installed # list installed packages
+sudo apt remove <packagename> # removes a package
+sudo apt autoremove # removes unused packages
+
+sudo apt update # updates lists
+
+Redis cleanup:
+If you see Redis::CommandError: OOM command not allowed when used memory > 'maxmemory' in the logs
+
+
+
+### PAPERTRAIL
+https://www.papertrail.com/solution/tips/parsing-common-log-formats-with-papertrail/

@@ -1,0 +1,46 @@
+psql -U rails_pg_user -h localhost -d jetslash_dev
+
+\pset pager off
+\c databasename # select database
+\dt # display tables
+
+https://www.postgresql.org/docs/14/app-psql.html - docs for all extra commands
+
+## DATABASE MAINTENANCE
+\l # lists databases
+\c db # switch to database
+\d aircrafts # describes table
+\l+ db # shows size of database
+SELECT pg_size_pretty( pg_table_size('airports') );  # disk table size
+https://wiki.postgresql.org/wiki/Disk_Usage pretty print size of everything in a db
+CREATE DATABASE delete_me TEMPLATE jetslash_test; # clone database
+DROP DATABASE delete_me;
+\pset pager off # turns pagination on/off
+
+
+CREATE DATABASE jetslash_test_clone TEMPLATE jetslash_test;
+
+pg_restore -U rails_pg_user -h localhost --verbose --dbname=jetslash_dev 85aefaf0-fe8a-4c33-96e9-d2559a3c37cc
+
+
+ trip: - holds data for the whole trip
+  operator_id: owner
+  current_quote_id: 
+  quote_for_scheduled_itinerary: editable
+quote: - initally, one quote was locked in.
+
+trip_quotes: holds pricing/scheduling data
+trip_quote_segments: ordered, has origin_id, destionation_id airports
+trip_quote_line_items: defines how trip is priced. It operates on a trip
+
+start with a schedule, end up with a trip quote
+go server generates trips with a bunch of line items
+pricing_line_item: 
+
+trip can be composed of multiple trip quotes, if we are flying with multiple aircrafts.
+
+testing explode:
+- how am I going to test this?
+
+#### Test database
+\c jetslash_test

@@ -1,0 +1,58 @@
+- installing docker compose, new compose is a docker extension
+
+Docker commands
+
+docker compose up --build portal
+docker compose up --build olympus v2cache v2queue
+docker stop olympus-http
+docker 
+ 
+docker compose logs -f v2queue v2cache
+
+alias dockerps='docker ps --format "table {{.ID}}\t{{.Status}}\t{{.State}}\t{{.Names}}"'
+
+
+## container maintenance
+# removes unused images/volumes
+docker image prune 
+docker volume prune # removes unused volumes
+docker ps
+docker stop C
+docker stop $(docker ps -q) # stop all images
+docker kill $(docker ps -q) # kills all images
+docker stats # displays CPU usage
+docker rm C # delete a container
+docker rm -f `sudo docker ps -a -q` # delete all containers
+
+## container inspection
+docker run -i -t jetinsight-server_olympus sh # runs interactive shell on olympus
+docker attach C # attaches to running container
+docker exec -d 
+docker exec -t -i C sh # opens interactive shell in a container
+docker logs -f C # container logs
+docker top C
+docker inspect C --format='{{ .State.Running }}'
+
+## images
+docker images # lists images
+
+docker-compose down
+docker-compose up postgres redis
+docker system prune -af && docker volume prune (you will need to type 'y' for yes at some point)
+docker-compose up portal
+docker-compose up olympus v2cache v2queue
+
+
+### NOTES
+three ways containers can be identified: a short UUID
+(like f7cbdac22a02), a longer UUID (like f7cbdac22a02e03c9438c729345e54db9d
+20cfa2ac1fc3494b6eb60872e74778), and a name (like gray_cat)
+
+Image is a container blueprint.
+Container is a running image. It has a name.
+
+3 we can also run additional processes inside our containers using
+the docker exec command. 
+
+Building olympus:
+go-insight> docker build --build-arg build_path=olympusHttp -f Dockerfile.dev .

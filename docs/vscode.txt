@@ -1,0 +1,3 @@
+vscode.txt
+
+Tasks are defined in .vscode/tasks.json

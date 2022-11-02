@@ -1,0 +1,53 @@
+Disqualify any flights flying between 11pm and 6am.
+
+- Cannot validate upon request, because the times need to be computed in local timezone.
+
+Doing it in reduce:
+- there is no way
+ReduceManager::handleInternal
+ReduceQualifier::filterBelowMinimumShards
+
+
+Departures after 11PM, 
+
+This builds the cache:
+internal/hermes/cache/buildManager.go
+
+init: 16.727s; dbclone: 2.143s; cache rebuild: 2.528s ;hydrate: 1.201s; explode: 202ms; price: 2.618s; reduce: 44ms;
+init: 12.966s; dbclone: 562ms; cache rebuild: 2.484s ;hydrate: 1.106s; explode: 612ms; price: 2.392s; reduce: 45ms;
+
+DATABASE_URL=postgres://uaq02fokk70lir:p61f3dfaea919c66a93a68d8785c204e6cb2588db98ddc32c4af0b4cd366df951@ec2-3-215-189-65.compute-1.amazonaws.com:5432/d8m6tpg2877a0u
+DATABASE_READ_REPLICA_URL=postgres://u9l1kdc586e3pu:pd58fdab5fc3fa86e7a688d689af679b2f7f8c63debdbf2ae11970398388b18f6@ec2-54-84-239-182.compute-1.amazonaws.com:5432/d8m6tpg2877a0u
+
+single repo
+
+- deployment: what tests should I run
+
+- make sure our images are not too large
+
+- what branch should I check into? 
+ - start a new branch, atotic/feature/monorepo
+ - merge into master
+ - start a new hermes-develop branch off master?
+
+
+logging
+tests for db loading
+
+Heroku logs are always in the format: 
+timestamp dyno message
+https://devcenter.heroku.com/articles/logging#heroku-s-log-format-and-message-ordering
+Heroku log drains:
+https://devcenter.heroku.com/articles/log-drains#syslog-drains
+Supposedly, 
+
+Heroku's Logplex generates log lines of the form:
+timestamp source[dyno]: message
+
+All stdout messages lose their severity level when passed through Logplex
+https://github.com/heroku/rails_stdout_logging/issues/34
+
+protos/hermesQueue/pricing_shard.pb.go 327 
+ New field: SegmentIndexes         []int64
+protos/hermesQueue/reduce.pb.go -- 249 
+ New field: TripRequestUuid

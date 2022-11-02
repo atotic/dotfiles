@@ -1,0 +1,15 @@
+https://www.openmymind.net/redis.pdf # great intro to datatypes
+
+redis-cli  # redis command line client
+
+> monitor # streams all the commands for the go server
+
+keys "c::*"
+
+dbsize # lists all keys 78331
+
+ttl <key> # time to live
+
+info memory # memory information
+
+memory usage <key> # bytes used by key
