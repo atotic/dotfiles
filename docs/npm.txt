@@ -1,0 +1,4 @@
+npm
+
+# hide funding messages
+ npm config set fund false --global

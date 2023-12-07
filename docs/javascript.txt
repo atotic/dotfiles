@@ -1,0 +1,23 @@
+/* Promises: how does promise chaining work?
+
+Chained promises all get resolved in order. 
+The chain is never broken, even when callbacks throw exceptions.
+
+Lets start with the Promise 'StarterPromise'
+Every call to StarterPromise.then(fulfillCb, rejectCb) creates a new Promise 'LinkPromise' which 
+becomes a new link in the chain.
+StarterPromise saves: LinkPromise, fulfillCb, rejectCb.
+When StarterPromise is resolved, it filters resolved value through callback,
+then passes it to LinkPromise by resolving it.
+
+The filter matches StartrPromise state: 'fulfilled' -> fulfillCb, 'rejected' -> rejectCb.
+
+1) if filter does not exist, value is passed unfiltered to LinkPromise.
+This happens with rejected promises if rejectCb is not specified.
+2) filter is called with StarterPromise's value. Then it runs Promise Resolution Procedure on
+   returned value V.
+ 2a) if filter throws, LinkPromise.reject 
+ 2b) if V is a Promise, try to resolve it recursively, and use return value to resolve LinkPromise
+ 2c) otherwise, resolve LinkPromise with V
+
+*/
